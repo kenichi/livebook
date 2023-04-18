@@ -188,6 +188,26 @@ defmodule LivebookWeb.Output.InputComponent do
     """
   end
 
+  defp input_output(%{attrs: %{type: :radio}} = assigns) do
+    ~H"""
+    <%= for {value, text} = input <- @attrs.options do %>
+      <div class="flex items-center space-x-2">
+        <input
+          type="radio"
+          data-el-input
+          class="input w-auto invalid:input--error"
+          name="value"
+          value={to_string(value)}
+          phx-debounce="blur"
+          phx-target={@myself}
+          id={:erlang.phash2(input) |> Integer.to_string()}
+        />
+        <label for={:erlang.phash2(input) |> Integer.to_string()}><%= text %></label>
+      </div>
+    <% end %>
+    """
+  end
+
   defp input_output(assigns) do
     ~H"""
     <div class="text-red-600">
